@@ -4,7 +4,7 @@ from src.processing import filter_by_state, sort_by_date
 
 
 @pytest.fixture
-def list_by_state():
+def list_by_state() -> list:
     return [
         {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
         {"id": 939719570, "state": "EXECUTED", "date": "2018-06-30T02:08:58.425572"},
@@ -33,13 +33,13 @@ def list_by_state():
         ("", []),
     ],
 )
-def test_filter_by_state(list_by_state, state, expected):
+def test_filter_by_state(list_by_state: list, state: str, expected: list) -> None:
     """Положительный тест на отбор банковских операций по статусу"""
     assert filter_by_state(list_by_state, state) == expected
 
 
 @pytest.fixture
-def list_by_date():
+def list_by_date() -> list:
     return [
         {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
         {"id": 939719570, "state": "EXECUTED", "date": "2018-06-30T02:08:58.425572"},
@@ -71,12 +71,12 @@ def list_by_date():
         ),
     ],
 )
-def test_sort_by_date(list_by_state, sort_order, expected):
+def test_sort_by_date(list_by_state: list, sort_order: bool, expected: list) -> None:
     """Положительный тест на отбор банковских операций по дате"""
     assert sort_by_date(list_by_state, sort_order) == expected
 
 
-def test_sort_by_date_same_date():
+def test_sort_by_date_same_date() -> None:
     """Тест при одинаковой дате"""
     assert (
         sort_by_date(

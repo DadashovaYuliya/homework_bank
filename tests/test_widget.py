@@ -1,6 +1,6 @@
 import pytest
 
-from src.widget import mask_account_card, get_date
+from src.widget import get_date, mask_account_card
 
 
 @pytest.mark.parametrize(
@@ -14,12 +14,12 @@ from src.widget import mask_account_card, get_date
         ("Счет 73654108430135874305", "Счет **4305"),
     ],
 )
-def test_mask_account_card(account_id: str, masks: str):
+def test_mask_account_card(account_id: str, masks: str) -> None:
     """Положительный тест на маскировку карты или счета"""
     assert mask_account_card(account_id) == masks
 
 
-def test_mask_account_card_number_len():
+def test_mask_account_card_number_len() -> None:
     """Тест на некорректную длину или отсутствие ввода"""
     assert mask_account_card("Maestro 700079228960636125") == "Некорректный ввод данных"
     assert mask_account_card("") == "Введите данные счета или карты"
@@ -34,11 +34,11 @@ def test_mask_account_card_number_len():
         ("2024-11-15", "15.11.2024"),
     ],
 )
-def test_get_date(str_date: str, masks: str):
+def test_get_date(str_date: str, masks: str) -> None:
     """Положительный тест на форматирование даты"""
     assert get_date(str_date) == masks
 
 
-def test_get_date_no_data():
+def test_get_date_no_data() -> None:
     """Тест на отсутствие ввода"""
     assert get_date("") == "Некорректный ввод данных"
