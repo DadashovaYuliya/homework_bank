@@ -1,3 +1,5 @@
+from typing import Generator
+
 transactions = (
     [
         {
@@ -78,7 +80,7 @@ transactions = (
     ]
 )
 
-def filter_by_currency(new_dict:list, currency:str):
+def filter_by_currency(new_dict:list, currency:str) -> Generator:
     '''Функция, возвращающая список операций по заданной валюте'''
     for i in new_dict:
         if i['operationAmount']['currency']['name'] == currency:
@@ -89,7 +91,7 @@ for i in range(2):
     print(next(usd_transactions))
 
 
-def transaction_descriptions(new_dict:list):
+def transaction_descriptions(new_dict:list) -> Generator:
     '''Функция, возвращающая описание операций'''
     for i in new_dict:
         if i.get('description') != None:
@@ -98,10 +100,12 @@ def transaction_descriptions(new_dict:list):
 
 descriptions = transaction_descriptions(transactions)
 for i in range(5):
-    print(next(descriptions))
+        print(next(descriptions))
 
 
-def card_number_generator(start, stop):
+
+def card_number_generator(start:int, stop:int) -> Generator:
+    '''Функция, генерирующая номера карт в формате XXXX XXXX XXXX XXXX'''
     for i in range(start,stop):
         card_number = str(i)
         while len(card_number) < 16:
