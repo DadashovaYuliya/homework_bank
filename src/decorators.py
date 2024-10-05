@@ -1,9 +1,10 @@
 from collections.abc import Callable
 from functools import wraps
-from typing import Union, Any
+from typing import Any
 
 
 def log(filename: str | None = None) -> Callable:
+    '''Декоратор, который логирует работу функции и выводит результат в файл или в консоль'''
     def my_decorator(func: Callable) -> Callable:
         @wraps(func)
         def wrapper(*args: Any, **kwargs: Any) -> Any:
@@ -21,7 +22,9 @@ def log(filename: str | None = None) -> Callable:
                         file.write(f"{func.__name__} error: {e}. Input: {args}, {kwargs}\n")
                 else:
                     print(f"{func.__name__} error: {e}. Input: {args}, {kwargs}\n")
+
         return wrapper
+
     return my_decorator
 
 
@@ -31,4 +34,4 @@ def my_function(x: int, y: int) -> int:
     return x + y
 
 
-my_function(1, '3')
+my_function(1, 2)
