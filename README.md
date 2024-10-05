@@ -37,22 +37,23 @@ transaction_descriptions - принимает список словарей с �
 card_number_generator - функция генерации номера карт заданного количества в формате 
 ХХХХ ХХХХ ХХХХ
 
+декоратор log - декоратор, который логирует работу функции и выводит результат в файл или в консоль
+
 ## Тестирование:
-Для модулей masks.py, processing.py, widget.py, generators.py реализованы тесты:
+Для модулей masks.py, processing.py, widget.py, generators.py, decorarots.py реализованы тесты:
 ```
 Name                       Stmts   Miss  Cover
 ----------------------------------------------
 src\__init__.py                0      0   100%
+src\decorators.py             25      4    84%
 src\generators.py             26      0   100%
-src\masks.py                  11      0   100%
-src\processing.py              8      0   100%
 src\widget.py                 18      0   100%
 tests\__init__.py              0      0   100%
-tests\test_generators.py      23      0   100%
-tests\test_masks.py           15      0   100%
+tests\test_decorators.py      12      0   100%
 tests\test_processing.py      16      1    94%
 tests\test_widget.py          13      0   100%
 ----------------------------------------------
-TOTAL                        130      1    99%
+TOTAL                        167      5    97%
+
 
 ```

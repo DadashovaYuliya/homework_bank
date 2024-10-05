@@ -117,7 +117,7 @@ def list_by_currency() -> list:
 )
 def test_filter_by_currency(list_by_currency: list, currency: str, expected: list) -> None:
     """Положительный тест на отбор банковских операций по заданной валюте,
-        в том числе при отсутствии валюты в списке"""
+    в том числе при отсутствии валюты в списке"""
     assert list(filter_by_currency(list_by_currency, currency)) == expected
 
 
