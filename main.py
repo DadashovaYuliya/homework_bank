@@ -1,5 +1,6 @@
 from src.masks import get_mask_account, get_mask_card_number
 from src.processing import filter_by_state, sort_by_date
+from src.utils import get_bank_transaction_data
 from src.widget import get_date, mask_account_card
 
 print(get_mask_card_number(7000792289606361))
@@ -46,3 +47,5 @@ print(
         ]
     )
 )
+
+print(get_bank_transaction_data('data/operations.json'))
