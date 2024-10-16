@@ -4,7 +4,8 @@ from typing import Any
 
 
 def log(filename: str | None = None) -> Callable:
-    '''Декоратор, который логирует работу функции и выводит результат в файл или в консоль'''
+    """Декоратор, который логирует работу функции и выводит результат в файл или в консоль"""
+
     def my_decorator(func: Callable) -> Callable:
         @wraps(func)
         def wrapper(*args: Any, **kwargs: Any) -> Any:

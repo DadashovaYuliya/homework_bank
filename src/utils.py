@@ -1,9 +1,11 @@
 import json
+from typing import Any
 
 
-def get_bank_transaction_data (path: str) -> list:
+def get_bank_transaction_data(path: str) -> Any:
+    """Функция, возвращающая список словарей с данными о финансовых транзакциях"""
     try:
-        with open(path, encoding='utf-8') as f:
+        with open(path, encoding="utf-8") as f:
 
             try:
                 bank_file = json.load(f)
@@ -14,4 +16,3 @@ def get_bank_transaction_data (path: str) -> list:
         return []
 
     return bank_file
-

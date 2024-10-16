@@ -1,15 +1,16 @@
 import os
-from dotenv import load_dotenv
-import requests
 
+import requests
+from dotenv import load_dotenv
 
 load_dotenv()
 
 
 def get_transaction_amount_rub(transaction: dict) -> float:
-    amount = float(transaction['operationAmount']['amount'])
-    currency = transaction['operationAmount']['currency']['code']
-    if currency == 'RUB':
+    """Функция, возвращающая сумму транзакции в рублях"""
+    amount = float(transaction["operationAmount"]["amount"])
+    currency = transaction["operationAmount"]["currency"]["code"]
+    if currency == "RUB":
         return amount
     else:
         key = os.getenv("API_KEY")
@@ -19,4 +20,5 @@ def get_transaction_amount_rub(transaction: dict) -> float:
         response = requests.request("GET", url, headers=headers)
 
         result = response.json()
-        return float(result['result'])
+
+        return float(result["result"])
