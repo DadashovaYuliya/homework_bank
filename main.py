@@ -50,6 +50,7 @@ print(
 )
 
 print(get_bank_transaction_data("data/operations.json"))
+print(get_bank_transaction_data("data/operation.json"))
 
 print(
     get_transaction_amount_rub(
