@@ -39,21 +39,40 @@ card_number_generator - функция генерации номера карт 
 
 декоратор log - декоратор, который логирует работу функции и выводит результат в файл или в консоль
 
+get_bank_transaction_data - функция, возвращающая список словарей с данными о финансовых транзакциях из файла json
+
+get_transaction_amount_rub - функция, возвращающая сумму транзакции в рублях с помощью подключения по API 
+(https://api.apilayer.com/exchangerates_data/convert), если сумма указана в валюте
+
+read_csv, read_excel - функция, возвращающая список словарей с данными о финансовых транзакциях из файла csv/excel
+
 ## Тестирование:
-Для модулей masks.py, processing.py, widget.py, generators.py, decorarots.py реализованы тесты:
+Для модулей masks.py, processing.py, widget.py, generators.py, decorarots.py, external_api.py,
+read_file.py, utils.py реализованы тесты:
 ```
 Name                       Stmts   Miss  Cover
-----------------------------------------------
-src\__init__.py                0      0   100%
-src\decorators.py             25      4    84%
-src\generators.py             26      0   100%
-src\widget.py                 18      0   100%
-tests\__init__.py              0      0   100%
-tests\test_decorators.py      12      0   100%
-tests\test_processing.py      16      1    94%
-tests\test_widget.py          13      0   100%
-----------------------------------------------
-TOTAL                        167      5    97%
+------------------------------------------------
+src\__init__.py                  0      0   100%
+src\decorators.py               25      4    84%
+src\external_api.py             15      0   100%
+src\generators.py               26      0   100%
+src\masks.py                    26      4    85%
+src\processing.py                8      0   100%
+src\read_file.py                30      0   100%
+src\utils.py                    23      3    87%
+src\widget.py                   18      0   100%
+tests\__init__.py                0      0   100%
+tests\test_decorators.py        12      0   100%
+tests\test_external_api.py      10      0   100%
+tests\test_generators.py        23      0   100%
+tests\test_masks.py             15      0   100%
+tests\test_processing.py        16      1    94%
+tests\test_read_file.py         24      0   100%
+tests\test_utils.py              5      0   100%
+tests\test_widget.py            13      0   100%
+------------------------------------------------
+TOTAL                          289     12    96%
+
 
 
 ```
