@@ -3,8 +3,8 @@ from src.masks import get_mask_account, get_mask_card_number
 
 def mask_account_card(account: str) -> str:
     """Функция, которая обрабатывает информацию о картах и счетах и возвращает соответствующую маску"""
-    if len(account) == 0:
-        return "Введите данные счета или карты"
+    # if len(account) == 0:
+    #     return "Введите данные счета или карты"
 
     account_list = account.split()
 

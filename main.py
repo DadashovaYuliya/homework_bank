@@ -1,72 +1,138 @@
-# from src.external_api import get_transaction_amount_rub
-# from src.masks import get_mask_account, get_mask_card_number
-# from src.processing import filter_by_state, sort_by_date
+from typing import Any
+
+from src.generators import filter_by_currency
+from src.processing import filter_by_state, sort_by_date
 from src.read_file import read_csv, read_excel
-# from src.utils import get_bank_transaction_data
-# from src.widget import get_date, mask_account_card
+from src.search import get_transactions_by_row
+from src.utils import get_bank_transaction_data
+from src.widget import get_date, mask_account_card
 
-# print(get_mask_card_number(7000792289606361))
-#
-# print(get_mask_account(73654108430135874305))
-#
-# print(mask_account_card("Maestro 1596837868705199"))
-#
-# print(mask_account_card("Счет 64686473678894779589"))
-#
-# print(mask_account_card("MasterCard 7158300734726758"))
-#
-# print(mask_account_card("Счет 35383033474447895560"))
-#
-# print(mask_account_card("Visa Classic 6831982476737658"))
-#
-# print(mask_account_card("Visa Platinum 8990922113665229"))
-#
-# print(mask_account_card("Visa Gold 5999414228426353"))
-#
-# print(mask_account_card("Счет 73654108430135874305"))
-#
-# print(get_date("2024-03-11T02:26:18.671407"))
-#
-# print(
-#     filter_by_state(
-#         [
-#             {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
-#             {"id": 939719570, "state": "EXECUTED", "date": "2018-06-30T02:08:58.425572"},
-#             {"id": 594226727, "state": "CANCELED", "date": "2018-09-12T21:27:25.241689"},
-#             {"id": 615064591, "state": "CANCELED", "date": "2018-10-14T08:21:33.419441"},
-#         ],
-#         state="EXECUTED",
-#     )
-# )
-#
-# print(
-#     sort_by_date(
-#         [
-#             {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
-#             {"id": 939719570, "state": "EXECUTED", "date": "2018-06-30T02:08:58.425572"},
-#             {"id": 594226727, "state": "CANCELED", "date": "2018-09-12T21:27:25.241689"},
-#             {"id": 615064591, "state": "CANCELED", "date": "2018-10-14T08:21:33.419441"},
-#         ]
-#     )
-# )
-#
-# print(get_bank_transaction_data("data/operations.json"))
-# print(get_bank_transaction_data("data/operation.json"))
-#
-# print(
-#     get_transaction_amount_rub(
-#         {
-#             "id": 41428829,
-#             "state": "EXECUTED",
-#             "date": "2019-07-03T18:35:29.512364",
-#             "operationAmount": {"amount": "8221.37", "currency": {"name": "USD", "code": "USD"}},
-#             "description": "Перевод организации",
-#             "from": "MasterCard 7158300734726758",
-#             "to": "Счет 35383033474447895560",
-#         }
-#     )
-# )
 
-# print(read_csv("data/transaction.csv"))
+def select_menu_item() -> list:
+    """Функция, получающая список транзакций из формата файла, выбранного пользователем"""
+    user_input = int(
+        input(
+            """Привет! Добро пожаловать в программу работы с банковскими транзакциями. 
+Выберите необходимый пункт меню:
+1. Получить информацию о транзакциях из JSON-файла
+2. Получить информацию о транзакциях из CSV-файла
+3. Получить информацию о транзакциях из XLSX-файла\n"""
+        )
+    )
+    try:
+        list_bank = []
+        if user_input == 1:
+            print("Для обработки выбран JSON-файл")
+            list_bank = get_bank_transaction_data("data/operations.json")
+        elif user_input == 2:
+            print("Для обработки выбран CSV-файл")
+            list_bank = read_csv("data/transactions.csv")
+        elif user_input == 3:
+            print("Для обработки выбран XLSX-файл")
+            list_bank = read_excel("G:/Downloads/transactions_excel.xlsx")
 
-print(read_excel("G:/Downloads/transactions_excel.xlsx"))
+        return list_bank
+
+    except Exception as ex:
+        print(f"Произошла ошибка {ex}.")
+        return []
+
+
+def select_operation_status(list_bank: list) -> list:
+    """Функция, получающая список транзакций по статусу, выбранному пользователем"""
+    list_status = ["EXECUTED", "CANCELED", "PENDING"]
+    while True:
+        user_input = str(
+            input(
+                """Введите статус, по которому необходимо выполнить фильтрацию. 
+Доступные для фильтровки статусы: EXECUTED, CANCELED, PENDING\n"""
+            ).upper()
+        )
+        if user_input in list_status:
+            print(f"Операции отфильтрованы по статусу {user_input}.")
+            list_bank = filter_by_state(list_bank, user_input)
+            break
+        else:
+            print(f"По статусу {user_input} операции не найдены.")
+    return list_bank
+
+
+def sorted_transaction_date(list_bank: list) -> list:
+    """Функция, сортирующая транзакции по дате в соответствии с запросом пользователя"""
+    user_input = input("Отсортировать операции по дате? Да/Нет.\n").lower()
+    if user_input == "да":
+        user_input = input("Отсортировать по возрастанию или по убыванию?? По возрастанию/По убыванию.\n").lower()
+
+        if user_input == "по возрастанию":
+            sort_order = False
+        else:
+            sort_order = True
+
+        list_bank = sort_by_date(list_bank, sort_order)
+    return list_bank
+
+
+def sorted_transaction_rub(list_bank: list) -> list:
+    """Функция, сортирующая транзакции по валюте в соответствии с запросом пользователя"""
+    user_input = input("Выводить только рублевые тразакции? Да/Нет.\n").lower()
+    if user_input == "да":
+        list_bank = filter_by_currency(list_bank, "RUB")
+        return list(list_bank)
+    else:
+        return list_bank
+
+
+def sorted_by_descriptions(list_bank: list) -> list:
+    """Функция, сортирующая транзакции по слову в описании в соответствии с запросом пользователя"""
+    user_input = input("Отфильтровать список транзакций по определенному слову в описании? Да/Нет.\n").lower()
+    if user_input == "да":
+        input_search = input("Введите слово:\n")
+        list_bank = get_transactions_by_row(list_bank, input_search)
+    return list_bank
+
+
+def get_final_list(list_bank: list) -> Any:
+    """Функция, выводящая транзакции в соответствии с запросом пользователя"""
+    if len(list_bank) == 0:
+        print("Не найдено транзакций с заданными условиями.")
+    else:
+        print("Распечатываю итоговый список транзакций...")
+        print(f"Всего банковских операций в выборке {len(list_bank)}.")
+
+    for transaction in list_bank:
+        date = get_date(transaction.get("date"))
+        print(f"{date} {transaction.get('description')}")
+
+        try:
+            mask_from = mask_account_card(transaction["from"])
+            print(f"{mask_from} -> ", end="")
+        except KeyError:
+            print('f"",' end="")
+        except AttributeError:
+            print(f"", end="")
+        except IndexError:
+            print(f"", end="")
+        mask_to = mask_account_card(transaction["to"])
+
+        try:
+            amount = transaction["amount"]
+        except KeyError:
+            amount = transaction["operationAmount"]["amount"]
+        try:
+            currency = transaction["currency_name"]
+        except KeyError:
+            currency = transaction["operationAmount"]["currency"]["name"]
+        print(f"{mask_to} \n Сумма: {amount} {currency}")
+
+
+def main():
+    """Запуск программы"""
+    list_bank = select_menu_item()
+    list_bank = select_operation_status(list_bank)
+    list_bank = sorted_transaction_date(list_bank)
+    list_bank = sorted_transaction_rub(list_bank)
+    list_bank = sorted_by_descriptions(list_bank)
+    get_final_list(list_bank)
+
+
+print(main())
