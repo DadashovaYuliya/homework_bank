@@ -69,4 +69,4 @@ from src.read_file import read_csv, read_excel
 
 # print(read_csv("data/transaction.csv"))
 
-print(read_excel("data/transactions_excel.xlsx"))
+print(read_excel("G:/Downloads/transactions_excel.xlsx"))

@@ -29,12 +29,12 @@ def read_csv(path: str) -> list[dict[Any, Any]]:
 def read_excel(path: str) -> list[dict[Any, Any]]:
     """Функция, возвращающая данные о транзакциях с файла формата excel"""
     try:
-        logger.info("Попытка открытия файла")
-        with open(path, encoding="utf-8") as file:
-            logger.info("Чтение транзакций из файла")
-            reader = pd.read_excel(file)
-            result = reader.to_dict(orient="records")
-            return result
+        # logger.info("Попытка открытия файла")
+        # with open(path, encoding="utf-8") as file:
+        logger.info("Чтение транзакций из файла")
+        reader = pd.read_excel(path)
+        result = reader.to_dict(orient="records")
+        return result
     except Exception as ex:
         logger.error(f"Произошла ошибка чтения файла: {ex}")
         return [{}]

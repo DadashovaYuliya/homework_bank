@@ -46,14 +46,14 @@ def test_read_csv_with_incorrect_path():
     assert read_csv("") == [{}]
 
 
-@patch("src.read_file.csv.DictReader")
-def test_read_xlsx(mock_read, test_df):
+@patch("src.read_file.pd.read_excel")
+def test_read_excel(mock_read, test_df):
     mock_read.return_value = test_df
-    assert read_excel("transaction_excel.csv") == test_df.to_dict(orient="records")
-    mock_read.assert_called_once_with("transactions_excel.csv")
+    assert read_excel("G:/Downloads/transactions_excel.xlsx") == test_df.to_dict(orient="records")
+    mock_read.assert_called_once_with("G:/Downloads/transactions_excel.xlsx")
 
 
-def test_read_xlsx_with_incorrect_path():
+def test_read_excel_with_incorrect_path():
     """Тест с некорректным путем"""
 
     assert read_excel("") == [{}]
