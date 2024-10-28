@@ -20,8 +20,8 @@ def test_get_mask_card_number(numbers: Union[str, int], masks: str) -> None:
 
 def test_get_mask_card_number_len() -> None:
     """Тесты на некорректную длину или отсутствие ввода"""
-    assert get_mask_card_number("700079228960636125") == "Проверьте длину номера карты"
-    assert get_mask_card_number("") == "Проверьте длину номера карты"
+    assert get_mask_card_number("700079228960636125") == "Проверьте корректность ввода номера карты"
+    assert get_mask_card_number("") == "Проверьте корректность ввода номера карты"
 
 
 @pytest.mark.parametrize(
@@ -35,5 +35,5 @@ def test_get_mask_account(account: Union[str, int], masks: str) -> None:
 
 def test_get_mask_account_len() -> None:
     """Тесты на некорректную длину или отсутствие ввода"""
-    assert get_mask_account("7000792289606361254578") == "Проверьте длину номера счета"
-    assert get_mask_account("") == "Проверьте длину номера счета"
+    assert get_mask_account("7000792289606361254578") == "Проверьте корректность ввода номера счета"
+    assert get_mask_account("") == "Проверьте корректность ввода номера счета"
