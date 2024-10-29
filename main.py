@@ -12,7 +12,7 @@ def select_menu_item() -> list:
     """Функция, получающая список транзакций из формата файла, выбранного пользователем"""
     user_input = int(
         input(
-            """Привет! Добро пожаловать в программу работы с банковскими транзакциями. 
+            """Привет! Добро пожаловать в программу работы с банковскими транзакциями.
 Выберите необходимый пункт меню:
 1. Получить информацию о транзакциях из JSON-файла
 2. Получить информацию о транзакциях из CSV-файла
@@ -44,7 +44,7 @@ def select_operation_status(list_bank: list) -> list:
     while True:
         user_input = str(
             input(
-                """Введите статус, по которому необходимо выполнить фильтрацию. 
+                """Введите статус, по которому необходимо выполнить фильтрацию.
 Доступные для фильтровки статусы: EXECUTED, CANCELED, PENDING\n"""
             ).upper()
         )
@@ -107,11 +107,11 @@ def get_final_list(list_bank: list) -> Any:
             mask_from = mask_account_card(transaction["from"])
             print(f"{mask_from} -> ", end="")
         except KeyError:
-            print('f"",' end="")
+            print('', end='')
         except AttributeError:
-            print(f"", end="")
+            print('', end='')
         except IndexError:
-            print(f"", end="")
+            print('', end='')
         mask_to = mask_account_card(transaction["to"])
 
         try:
@@ -122,7 +122,7 @@ def get_final_list(list_bank: list) -> Any:
             currency = transaction["currency_name"]
         except KeyError:
             currency = transaction["operationAmount"]["currency"]["name"]
-        print(f"{mask_to} \n Сумма: {amount} {currency}")
+        print(f"{mask_to} \nСумма: {amount} {currency}")
 
 
 def main():
