@@ -13,6 +13,7 @@ def get_transactions_by_row(list_bank: list, row: str) -> list[dict[Any, Any]]:
 
 
 def get_category_counter(list_bank: list, list_categ: list) -> dict:
+    '''Функция, возвращающая словарь с данными {категория:количество}'''
     filter_transaction = []
     list_categ_low = [i.lower() for i in list_categ]
     for i in list_bank:
