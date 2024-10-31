@@ -1,4 +1,4 @@
-from typing import Generator
+from typing import Any, Generator
 
 transactions = [
     {
@@ -49,16 +49,23 @@ transactions = [
 ]
 
 
-def filter_by_currency(new_dict: list, currency: str) -> Generator:
+def filter_by_currency(new_dict: list, currency: str) -> Any:
     """Функция, возвращающая список операций по заданной валюте"""
     for i in new_dict:
-        if i["operationAmount"]["currency"]["name"] == currency:
-            yield i
+        try:
+            if i["operationAmount"]["currency"]["code"] == currency:
+                return (i for i in new_dict if i["operationAmount"]["currency"]["code"] == currency)
+        except KeyError:
+            try:
+                if i["currency_code"] == currency:
+                    return (i for i in new_dict if i["currency_code"] == currency)
+            except KeyError:
+                raise KeyError
 
 
-usd_transactions = filter_by_currency(transactions, "USD")
-for i in range(2):
-    print(next(usd_transactions))
+# usd_transactions = filter_by_currency(transactions, "USD")
+# for i in range(2):
+#     print(next(usd_transactions))
 
 
 def transaction_descriptions(new_dict: list) -> Generator:
@@ -69,9 +76,9 @@ def transaction_descriptions(new_dict: list) -> Generator:
             yield x
 
 
-descriptions = transaction_descriptions(transactions)
-for i in range(5):
-    print(next(descriptions))
+# descriptions = transaction_descriptions(transactions)
+# for i in range(5):
+#     print(next(descriptions))
 
 
 def card_number_generator(start: int, stop: int) -> Generator:
@@ -84,5 +91,5 @@ def card_number_generator(start: int, stop: int) -> Generator:
         yield formatted_card_number
 
 
-for card_number in card_number_generator(1, 5):
-    print(card_number)
+# for card_number in card_number_generator(1, 5):
+#     print(card_number)
